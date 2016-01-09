@@ -26,7 +26,7 @@
 		<filters>
 			<!-- Ensures that the config.properties file is always loaded from the 
 				configuration directory of the active Maven profile. -->
-			<filter>profiles/${build.profile.id}/config.properties</filter>
+			<filter>environment/${build.profile.id}/config.properties</filter>
 		</filters>
 		<resources>
 			<!-- Placeholders that are found from the files located in the configured 
@@ -37,23 +37,6 @@
 				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<finalName>${artifactId}-${version}</finalName>
-				</configuration>
-			</plugin>
-		</plugins>
 	</build>
 
 	<!-- Profile configuration -->

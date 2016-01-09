@@ -1,0 +1,92 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.harish.app</groupId>
+	<artifactId>test-profile</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<dependencies>
+		<!-- Log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+		<!-- Junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>Test-Profile</finalName>
+		<filters>
+			<!-- Ensures that the config.properties file is always loaded from the 
+				configuration directory of the active Maven profile. -->
+			<filter>profiles/${build.profile.id}/config.properties</filter>
+		</filters>
+		<resources>
+			<!-- Placeholders that are found from the files located in the configured 
+				resource directories are replaced with the property values found from the 
+				profile specific configuration file. -->
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<finalName>${artifactId}-${version}</finalName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!-- Profile configuration -->
+	<profiles>
+		<!-- Development Configuration -->
+		<profile>
+			<!-- Development configuration -->
+			<id>dev</id>
+			<!-- Active by Default -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<build.profile.id>dev</build.profile.id>
+			</properties>
+		</profile>
+
+		<!-- Testing Configuration -->
+		<profile>
+			<!-- Development configuration -->
+			<id>test</id>
+			<properties>
+				<build.profile.id>test</build.profile.id>
+			</properties>
+		</profile>
+
+		<!-- Production Configuration -->
+		<profile>
+			<!-- Development configuration -->
+			<id>prod</id>
+			<properties>
+				<build.profile.id>prod</build.profile.id>
+			</properties>
+		</profile>
+	</profiles>
+</project>
